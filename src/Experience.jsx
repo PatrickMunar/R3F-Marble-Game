@@ -12,7 +12,6 @@ export default function Experience() {
   return (
     <>
       <color args={["#bdedfc"]} attach="background" />
-      <OrbitControls makeDefault />
       <Physics>
         <Lights />
         <Level blockCount={blockCount} seed={blockSeed} />
