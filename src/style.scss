@@ -82,11 +82,15 @@ body,
   cursor: pointer;
 }
 
-// Quick Restart
-.quickRestart {
+// Quick Menu
+
+.quickMenu {
   position: absolute;
   bottom: 1rem;
   right: 1rem;
+}
+
+.quickNew {
   color: white;
   font-size: 5vh;
   background-color: #00000033;
@@ -95,4 +99,69 @@ body,
   padding-inline: 1.5rem;
   pointer-events: auto;
   cursor: pointer;
+}
+
+.quickRestart {
+  margin-top: 1rem;
+  color: white;
+  font-size: 5vh;
+  background-color: #00000033;
+  text-align: center;
+  padding-top: 0.5rem;
+  padding-inline: 1.5rem;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+// Info
+.info {
+  position: absolute;
+  max-width: calc((3rem) * 3 + 1.25rem);
+  bottom: 1rem;
+  left: 1rem;
+  font-size: 3vh;
+  background-color: #00000033;
+  color: white;
+  padding: 1rem;
+}
+
+.objective2 {
+  text-align: right;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.controlsRow {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.key {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid white;
+}
+
+.spaceKey {
+  width: calc((3rem) * 3 + 1.25rem);
+  height: 3rem;
+  border: 1px solid white;
+}
+
+// Commons
+.boldFont {
+  text-decoration: underline;
 }
