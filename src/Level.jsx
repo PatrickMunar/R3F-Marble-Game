@@ -193,7 +193,7 @@ export function BlockAxe({ position = [0, 0, 0] }) {
 }
 
 // Create Slider Block
-export function BlockSlider({ position = [0, 5, 0] }) {
+export function BlockSlider({ position = [0, 0, 0] }) {
   const obstacle = useRef()
   const [offset] = useState(() => Math.random() * Math.PI * 2)
 

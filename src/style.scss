@@ -60,24 +60,41 @@ body,
   flex-direction: column;
 }
 
+.endKey {
+  width: 5rem;
+  height: 5rem;
+  border: 1px solid white;
+  padding-top: 0.5rem;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  line-height: 5rem;
+  padding-top: 1rem;
+}
+
 .restart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 8vh;
   background-color: #00000033;
   text-align: center;
   padding-top: 1rem;
-  padding-inline: 3rem;
+  padding-inline: 1rem;
   pointer-events: auto;
   cursor: pointer;
 }
 
 .new {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 8vh;
   background-color: #00000033;
   text-align: center;
   padding-top: 1rem;
-  padding-inline: 3rem;
+  padding-inline: 1rem;
   pointer-events: auto;
   cursor: pointer;
 }
@@ -88,27 +105,47 @@ body,
   position: absolute;
   bottom: 1rem;
   right: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.quickKey {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid white;
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  line-height: 3rem;
+  padding-top: 0.5rem;
 }
 
 .quickNew {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 5vh;
   background-color: #00000033;
   text-align: center;
   padding-top: 0.5rem;
-  padding-inline: 1.5rem;
+  padding-inline: 0.5rem;
   pointer-events: auto;
   cursor: pointer;
 }
 
 .quickRestart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-top: 1rem;
   color: white;
   font-size: 5vh;
   background-color: #00000033;
   text-align: center;
   padding-top: 0.5rem;
-  padding-inline: 1.5rem;
+  padding-inline: 0.5rem;
   pointer-events: auto;
   cursor: pointer;
 }
@@ -153,6 +190,7 @@ body,
   width: 3rem;
   height: 3rem;
   border: 1px solid white;
+  padding-top: 0.5rem;
 }
 
 .spaceKey {

@@ -1,25 +1,29 @@
+import { useKeyboardControls } from "@react-three/drei"
 import { addEffect } from "@react-three/fiber"
 import { useEffect, useRef, useState } from "react"
 import useGame from "./stores/useGame"
 import gsap from "gsap"
 
 export default function Interface() {
+  const [subscribeKeys, getKeys] = useKeyboardControls()
   const time = useRef()
   const restart = useGame((state) => state.restart)
   const renew = useGame((state) => state.renew)
   const phase = useGame((state) => state.phase)
 
+  // Creat New Level
   const newLevel = () => {
     renew()
     setBest(999999999)
     localStorage.setItem("best", best)
   }
 
-  //   Best Record
+  // Set Best Record
   const [best, setBest] = useState(
     parseFloat(localStorage.getItem("best") ?? 999999999)
   )
 
+  // Every New Session
   useEffect(() => {
     gsap.fromTo(".time", { width: "10%" }, { duration: 2, width: "100%" })
     gsap.fromTo(".info", { y: "50vh" }, { duration: 1, delay: 1, y: 0 })
@@ -27,6 +31,7 @@ export default function Interface() {
     return setBest(999999999)
   }, [])
 
+  // If Phase Changes
   useEffect(() => {
     if (phase != "ended") {
       gsap.to(".time", { duration: 0.5, backgroundColor: "#00000033" })
@@ -36,6 +41,7 @@ export default function Interface() {
     }
   }, [phase])
 
+  // If Best Record Changes
   useEffect(() => {
     if (phase === "ended") {
       gsap.to(".time", { duration: 0.5, backgroundColor: "#9370dbff" })
@@ -48,6 +54,13 @@ export default function Interface() {
       const state = useGame.getState()
       let elapsedTime = 0
 
+      const { newLevelKey } = getKeys()
+
+      if (best < 5.0 && newLevelKey) {
+        newLevel()
+      }
+
+      // Timer Events
       if (state.phase === "playing") {
         elapsedTime = Date.now() - state.startTime
       } else if (state.phase === "ended") {
@@ -57,11 +70,11 @@ export default function Interface() {
         }
       }
 
-      //   Convert elapsedTime units fromo ms to s
+      // Convert elapsedTime units fromo ms to s
       elapsedTime *= 0.001
       elapsedTime = elapsedTime.toFixed(2)
 
-      //   Update Time Text
+      // Update Time Text
       if (time.current) {
         time.current.textContent = elapsedTime
       }
@@ -74,6 +87,7 @@ export default function Interface() {
 
   return (
     <section className="interface">
+      {/* Time */}
       <div className="timeContainer">
         <div className="bestTime">
           {`BEST: ${best === 999999999 ? `--` : best}`}
@@ -82,18 +96,22 @@ export default function Interface() {
           0.00
         </div>
       </div>
+
+      {/* End Menu */}
       {phase === "ended" && (
         <div className="endMenu">
           {best < 5.0 && (
             <div className="new" onClick={newLevel}>
-              NEXT
+              <div className="endKey">E</div>NEXT
             </div>
           )}
           <div className="restart" onClick={restart}>
-            RESTART
+            <div className="endKey">R</div>RESTART
           </div>
         </div>
       )}
+
+      {/* Info */}
       <div className="info">
         <div className="objective1">Get to the cheeseburger.</div>
         <div className="objective2">
@@ -114,18 +132,20 @@ export default function Interface() {
           </div>
         </div>
       </div>
-      {phase === "playing" && (
-        <div className="quickMenu">
-          {best < 5.0 && (
-            <div className="quickNew" onClick={newLevel}>
-              NEXT
-            </div>
-          )}
-          <div className="quickRestart" onClick={restart}>
-            RESTART
+
+      {/* Quick Menu */}
+      <div className="quickMenu">
+        {best < 5.0 && phase != "ended" && (
+          <div className="quickNew" onClick={newLevel}>
+            <div className="quickKey">E</div>NEXT
           </div>
-        </div>
-      )}
+        )}
+        {phase === "playing" && (
+          <div className="quickRestart" onClick={restart}>
+            <div className="quickKey">R</div>RESTART
+          </div>
+        )}
+      </div>
     </section>
   )
 }

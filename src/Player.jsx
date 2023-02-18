@@ -54,6 +54,7 @@ export default function Player() {
       }
     )
 
+    // Jump
     const unsubscribeJump = subscribeKeys(
       (state) => {
         return state.jump
@@ -65,9 +66,22 @@ export default function Player() {
       }
     )
 
-    const unsubscribeAny = subscribeKeys(() => {
-      start()
-    })
+    // Start Game
+    const unsubscribeAny = subscribeKeys(
+      (state) => {
+        return state
+      },
+      (value) => {
+        if (
+          value.forward == true ||
+          value.rightward == true ||
+          value.backward == true ||
+          value.leftward == true
+        ) {
+          start()
+        }
+      }
+    )
 
     return () => {
       unsubscribeReset()
@@ -81,7 +95,7 @@ export default function Player() {
      * Controls
      */
 
-    const { forward, backward, leftward, rightward } = getKeys()
+    const { forward, backward, leftward, rightward, restartKey } = getKeys()
 
     const impulse = { x: 0, y: 0, z: 0 }
     const torque = { x: 0, y: 0, z: 0 }
@@ -107,6 +121,10 @@ export default function Player() {
     if (leftward) {
       impulse.x += -impulseStrength
       torque.x += -torqueStrength
+    }
+
+    if (restartKey && phase != "ready") {
+      restart()
     }
 
     player.current.applyImpulse(impulse)

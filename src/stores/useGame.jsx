@@ -49,11 +49,9 @@ export default create(
 
       renew: () => {
         set((state) => {
-          if (state.phase === "ended" || state.phase === "playing") {
-            return {
-              phase: "ready",
-              blockSeed: Math.random(),
-            }
+          return {
+            phase: "ready",
+            blockSeed: Math.random(),
           }
 
           return {}
