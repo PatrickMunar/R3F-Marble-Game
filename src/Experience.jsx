@@ -13,6 +13,7 @@ export default function Experience() {
     <>
       <color args={["#bdedfc"]} attach="background" />
       <Physics>
+        {/* <Debug /> */}
         <Lights />
         <Level blockCount={blockCount} seed={blockSeed} />
         <Player />

@@ -30,13 +30,15 @@ export function BlockStart({ position = [0, 0, 0] }) {
         Marble Game
         <meshBasicMaterial toneMapped={false} />
       </Text>
-      <mesh
-        geometry={boxGeometry}
-        material={floor1Material}
-        position={[0, -0.1, 0]}
-        scale={[4, 0.2, 4]}
-        receiveShadow
-      />
+      <RigidBody type="fixed">
+        <mesh
+          geometry={boxGeometry}
+          material={floor1Material}
+          position={[0, -0.1, 0]}
+          scale={[4, 0.2, 4]}
+          receiveShadow
+        />
+      </RigidBody>
     </group>
   )
 }
@@ -58,13 +60,15 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
 
   return (
     <group position={position}>
-      <mesh
-        geometry={boxGeometry}
-        material={floor2Material}
-        position={[0, -0.1, 0]}
-        scale={[4, 0.2, 4]}
-        receiveShadow
-      />
+      <RigidBody type="fixed">
+        <mesh
+          geometry={boxGeometry}
+          material={floor2Material}
+          position={[0, -0.1, 0]}
+          scale={[4, 0.2, 4]}
+          receiveShadow
+        />
+      </RigidBody>
       <RigidBody
         ref={obstacle}
         type="kinematicPosition"
@@ -80,6 +84,12 @@ export function BlockSpinner({ position = [0, 0, 0] }) {
           receiveShadow
         />
       </RigidBody>
+      <CuboidCollider
+        args={[2, 0.1, 2]}
+        position={[0, -0.1, 0]}
+        restitution={0.2}
+        friction={1}
+      />
     </group>
   )
 }
@@ -102,13 +112,15 @@ export function BlockLimbo({ position = [0, 0, 0] }) {
 
   return (
     <group position={position}>
-      <mesh
-        geometry={boxGeometry}
-        material={floor2Material}
-        position={[0, -0.1, 0]}
-        scale={[4, 0.2, 4]}
-        receiveShadow
-      />
+      <RigidBody type="fixed">
+        <mesh
+          geometry={boxGeometry}
+          material={floor2Material}
+          position={[0, -0.1, 0]}
+          scale={[4, 0.2, 4]}
+          receiveShadow
+        />
+      </RigidBody>
       <RigidBody
         ref={obstacle}
         type="kinematicPosition"
@@ -124,6 +136,12 @@ export function BlockLimbo({ position = [0, 0, 0] }) {
           receiveShadow
         />
       </RigidBody>
+      <CuboidCollider
+        args={[2, 0.1, 2]}
+        position={[0, -0.1, 0]}
+        restitution={0.2}
+        friction={1}
+      />
     </group>
   )
 }
@@ -146,13 +164,15 @@ export function BlockAxe({ position = [0, 0, 0] }) {
 
   return (
     <group position={position}>
-      <mesh
-        geometry={boxGeometry}
-        material={floor2Material}
-        position={[0, -0.1, 0]}
-        scale={[4, 0.2, 4]}
-        receiveShadow
-      />
+      <RigidBody type="fixed">
+        <mesh
+          geometry={boxGeometry}
+          material={floor2Material}
+          position={[0, -0.1, 0]}
+          scale={[4, 0.2, 4]}
+          receiveShadow
+        />
+      </RigidBody>
       <RigidBody
         ref={obstacle}
         type="kinematicPosition"
@@ -164,6 +184,43 @@ export function BlockAxe({ position = [0, 0, 0] }) {
           geometry={boxGeometry}
           material={obstacleMaterial}
           scale={[1.5, 1.5, 0.3]}
+          castShadow
+          receiveShadow
+        />
+      </RigidBody>
+    </group>
+  )
+}
+
+// Create Slider Block
+export function BlockSlider({ position = [0, 5, 0] }) {
+  const obstacle = useRef()
+  const [offset] = useState(() => Math.random() * Math.PI * 2)
+
+  useFrame((state, delta) => {
+    const time = state.clock.elapsedTime
+
+    const x = Math.sin(time + offset)
+    obstacle.current.setNextKinematicTranslation({
+      x: position[0] + x,
+      y: position[1],
+      z: position[2],
+    })
+  })
+
+  return (
+    <group position={position}>
+      <RigidBody
+        ref={obstacle}
+        type="kinematicPosition"
+        position={[0, 0.3, 0]}
+        restitution={0.2}
+        friction={0}
+      >
+        <mesh
+          geometry={boxGeometry}
+          material={obstacleMaterial}
+          scale={[1.5, 0.3, 3.5]}
           castShadow
           receiveShadow
         />
@@ -198,13 +255,15 @@ export function BlockEnd({ position = [0, 0, 0] }) {
 
   return (
     <group position={position}>
-      <mesh
-        geometry={boxGeometry}
-        material={floor1Material}
-        position={[0, -0.1, 0]}
-        scale={[4, 0.2, 4]}
-        receiveShadow
-      />
+      <RigidBody type="fixed">
+        <mesh
+          geometry={boxGeometry}
+          material={floor1Material}
+          position={[0, -0.1, 0]}
+          scale={[4, 0.2, 4]}
+          receiveShadow
+        />
+      </RigidBody>
       <RigidBody
         ref={goal}
         type="kinematicPosition"
@@ -248,12 +307,12 @@ function Boundaries({ length = 1 }) {
           scale={[4, 1.7, 0.3]}
           receiveShadow
         />
-        <CuboidCollider
+        {/* <CuboidCollider
           args={[2, 0.1, 2 * length]}
           position={[0, -0.1, -(length * 2) + 2]}
           restitution={0.2}
           friction={1}
-        />
+        /> */}
       </RigidBody>
     </>
   )
@@ -261,8 +320,8 @@ function Boundaries({ length = 1 }) {
 
 // Create Level
 export function Level({
-  blockCount = 3,
-  blockTypes = [BlockSpinner, BlockAxe, BlockLimbo],
+  blockCount = 10,
+  blockTypes = [BlockSpinner, BlockAxe, BlockLimbo, BlockSlider],
   seed = 0,
 }) {
   const blocks = useMemo(() => {
