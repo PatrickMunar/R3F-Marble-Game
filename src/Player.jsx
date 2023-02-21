@@ -76,7 +76,8 @@ export default function Player() {
           value.forward == true ||
           value.rightward == true ||
           value.backward == true ||
-          value.leftward == true
+          value.leftward == true ||
+          value.jump == true
         ) {
           start()
         }
